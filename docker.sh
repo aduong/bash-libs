@@ -9,5 +9,5 @@ rm_dangling_volumes () {
 # removes exited docker containers
 rm_exited_containers () {
 	local containers=($(docker ps -qf status=exited))
-	[[ ${#containers[@]} -gt 0 ]] && docker rm ${containers[@]}
+	[[ ${#containers[@]} -gt 0 ]] && docker rm "${containers[@]}"
 }

@@ -33,10 +33,10 @@ wait_until () {
     until "${cmd[@]}"; do
         count=$((count + 1))
         if [[ $count -ge $times ]]; then
-            test $quiet || echo "Tried \"${cmd[@]}\" $count times unsuccesfully. Stopping." >&2
+            test $quiet || echo "Tried \"${cmd[*]}\" $count times unsuccesfully. Stopping." >&2
             return 1
         fi
-        test $quiet || echo "Tried \"${cmd[@]}\" $count times." >&2
+        test $quiet || echo "Tried \"${cmd[*]}\" $count times." >&2
         sleep "$interval"
     done
 }

@@ -15,7 +15,7 @@ max_length () {
 rename_func () {
 	local src=$1
 	local dst=$2
-	copy_func $src $dst
+	copy_func "$src" "$dst"
 	unset "$src"
 }
 
@@ -24,7 +24,7 @@ copy_func () {
 	local src=$1
 	local dst=$2
 
-	eval "$dst () $(declare -f $src | tail -n+2)"
+	eval "$dst () $(declare -f "$src" | tail -n+2)"
 }
 
-_util_funcs=(max_length rename_func copy_func)
+export _util_funcs=(max_length rename_func copy_func)
