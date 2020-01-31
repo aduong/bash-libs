@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+#
+# prints a column ruler in the terminal allowing the user to easily determine column positioning
 
 cols=$(tput cols)
 
