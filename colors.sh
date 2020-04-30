@@ -17,3 +17,7 @@ echo_green() {
 echo_red() {
   echo_color 160 "$@"
 }
+
+strip_colors() {
+  perl -pE 's/\x1b\[[^m]+m//g'
+}
