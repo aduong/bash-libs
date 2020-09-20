@@ -17,3 +17,11 @@ current_namespace() {
     echo "${ns}"
   fi
 }
+
+k_top_for_node() {
+  local node=$1
+  kubectl top po -A \
+    | grep --color=never -f <(
+      k get po --field-selector=spec.nodeName="$node" -o custom-columns=:metadata.namespace,:metadata.name --no-headers -A
+    )
+}
