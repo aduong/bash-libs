@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 user_bin_dir=~/.local/bin
 
 install_pritunl() {
@@ -166,6 +167,14 @@ install_gh() {
   sudo apt-get install gh
 }
 
+install_scripts() {
+  for file in "$script_dir"/*; do
+    if [[ -x "$file" ]]; then
+      ln -v -f -s "$script_dir/$file" "$user_bin_dir/"
+    fi
+  done
+}
+
 main() {
   set -o errexit -o nounset -o pipefail
 
@@ -191,6 +200,8 @@ main() {
   install_packer
   install_grepip
   install_gh
+
+  install_scripts
 }
 
 if [[ $0 != bash ]]; then
