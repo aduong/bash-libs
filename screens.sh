@@ -8,15 +8,24 @@ calc_int() {
   python -c "print(int(round($*)))"
 }
 
-laptop_display_name=eDP-1-1
-dp_display_name=DP-1-1
+laptop_display_name=eDP-1
+external_display_name=DP-3
+external_display_name=$external_display_name
 
 screen_on() {
-  xrandr --output $laptop_display_name --auto --primary --output $dp_display_name --right-of $laptop_display_name --auto
+  xrandr --output $laptop_display_name --auto --primary --output $external_display_name --right-of $laptop_display_name --auto
 }
 
 screen_off() {
-  xrandr --output $dp_display_name --off
+  xrandr --output $laptop_display_name --auto --primary --output $external_display_name --off
+}
+
+monitor_only() {
+  xrandr --output $laptop_display_name --off --output $external_display_name --auto --primary
+}
+
+laptop_only() {
+  xrandr --output $laptop_display_name --auto --primary --output $external_display_name --off
 }
 
 screen_auto() {
@@ -26,7 +35,7 @@ screen_auto() {
   xrandr_out=$(xrandr -q)
   laptop_display_connected=$(grep -q "$laptop_display_name connected" <<< "$xrandr_out" && echo true)
   hdmi_display_connected=$(grep -q "$hdmi_display_name connected" <<< "$xrandr_out" && echo true)
-  dp_display_connected=$(grep -q "$dp_display_name connected" <<< "$xrandr_out" && echo true)
+  dp_display_connected=$(grep -q "$external_display_name connected" <<< "$xrandr_out" && echo true)
   num_displays_connected=$(grep -c ' connected ' <<< "$xrandr_out")
 
   log "laptop_display_connected=$laptop_display_connected"
@@ -58,6 +67,12 @@ case "$1" in
     ;;
   off)
     screen_off
+    ;;
+  monitor)
+    monitor_only
+    ;;
+  laptop)
+    laptop_only
     ;;
   *)
     echo "USAGE: $0 [on|off]"
